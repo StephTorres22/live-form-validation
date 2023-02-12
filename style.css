@@ -12,12 +12,13 @@ form{
     align-self: center;
     background-color: aqua;
     width: 30vw;
-    height: 70vh;
+    height: 75vh;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: .5rem;
+    overflow-y: scroll;
 }
 
 legend{
@@ -35,11 +36,32 @@ legend{
     align-self: center;
 }
 
-input{
+input, select{
+    
     margin: 1rem;
-    font-size: large;
+    font-size: x-large;
     border-radius: 5px;
     border: none;
+}
+
+select{
+    background-color: white;
+}
+
+input:invalid, 
+select:invalid{
+    border: 2px solid red;
+}
+
+input:focus, 
+select:focus{
+    outline: none;
+}
+
+
+input:valid, 
+select:valid{
+    border: 2px solid rgb(23, 204, 7);
 }
 
 label{
