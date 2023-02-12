@@ -20,7 +20,7 @@
             <input type="text" name="surname" id="surname" required>
             
             <label for="country">Country</label>
-            <select>
+            <select id="country">
                 <option value="null"></option>
                 <option value="AF">Afghanistan</option>
                 <option value="AX">Åland Islands</option>
@@ -281,7 +281,12 @@
 
             <label for="password">Password</label>
             <input type="password" name="userPassword" id="userPassword" required>
-            <span>Passwords must be atleast 8 characters long and contain atleast one uppercase letter and number.</span>
+            <div class="password__criteria">
+                <div class="pc pc--length">Minimun 8 characters</div>
+                <div class="pc pc--digit">Contains a digit</div>
+                <div class="pc pc--capital">Contains a capital letter</div>
+
+            </div>
 
             <label for="passwordConfirmation">Confirm Password</label>
             <input type="password" name="passwordConfirmation" id="passwordConfirmation" required>

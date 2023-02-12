@@ -69,6 +69,10 @@ label{
     text-decoration: underline;
 }
 
+.pc{
+    color: red;
+}
+
 .form-button-container{
     display: flex;
     justify-content: space-around;
