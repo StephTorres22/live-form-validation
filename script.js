@@ -26,34 +26,34 @@ const textRegex = /([A-Z])\w*/g;
     county.classList.add(':invalid');
 } DOESN'T WORK HOW I WOULD LIKE. */
 
-/* email.addEventListener('input', (e) =>{
+email.addEventListener('input', (e) =>{
     if(email.validity.typeMismatch){
         email.setCustomValidity("Please enter a valid email address.");
     } else {
         email.setCustomValidity('');
     }
-}) */
+})
 
-/* firstName.addEventListener('input', (e) => {
+firstName.addEventListener('input', (e) => {
     if(textRegex.test(firstName.value) == false){
         firstName.setCustomValidity('Please enter in your name');
     } else {
         firstName.setCustomValidity('');
     }
-}) */
+})
 
 
-/* surname.addEventListener('input', (e) => {
+surname.addEventListener('input', (e) => {
     if(textRegex.test(surname.value) == false){
         surname.setCustomValidity('Please enter in your surname');
     } else {
         surname.setCustomValidity('');
     }
 })
- */
+
 /* PASSWORD VALIDATION FUNCTIONS */
 
-function hasDesiredCharacters(desiredNum, regex, string){
+function hasDesiredCharacters(desiredNum, regex, string, element, message){
 
     let actualNumber = 0;
 
@@ -66,14 +66,23 @@ function hasDesiredCharacters(desiredNum, regex, string){
     }
 
     if(actualNumber >= desiredNum){
+        setTextGreen(element);
         return true
     } else {
-        return false
+        setTextRed(element);
+        password.setCustomValidity(`${message}`);
+
     }
 }
 
-function isCorrectLength(num, string){
-    return (string.length >= num);
+function isCorrectLength(num, string, element){
+    if (string.length >= num){
+        setTextGreen(element);
+        return true
+    } else {
+        setTextRed(element);
+        password.setCustomValidity(`Password must contain atleast ${num} characters`);
+    }
 }
 
 function setTextGreen(element){
@@ -85,59 +94,30 @@ function setTextRed(element){
 }
 
 
-
-/* PASSWORD VALIDATION;
-
-    MUST BE ATLEAST 8CHARACTERS
-    CONTAIN A NUMBER, this will need thinking to check if string contains digit?
-    CONTAIN A CAPITALISED LETTER
-    WOULD BE COOL TO GET THE TICK AND CROSS THING GOING ON*/
-
 password.addEventListener('input', (e) => {
 
     const length = 8;
     const capNum = 1;
     const digNum = 1;
 
-    const value = e.target.value
+    const capitalMessage = `Password must contain atleast ${capNum} capital letter(s)`;
+    const numbersMessage = `Password must contain atleast ${digNum} number(s)`;
 
-    if((isCorrectLength(length, value) !== true) && (hasDesiredCharacters(digNum, numbersRegex, value) !== true) && (hasDesiredCharacters(capNum, capitalRegex, value) !== true)){
-        password.setCustomValidity(`Password must be atleast ${length} characters long, contain atleast ${digNum} digit and atleast ${capNum} capitalised letter.`)
-        setTextRed(passwordLength);
-        setTextRed(passwordCapital);
-        setTextRed(passwordDigit);
-    } else if((hasDesiredCharacters(digNum, numbersRegex, value) !== true) && (hasDesiredCharacters(capNum, capitalRegex, value) !== true) && (isCorrectLength(length, value) == true)){
-        password.setCustomValidity(`Password must contain atleast ${digNum} digit and ${capNum} capitalised letter`);
-        setTextGreen(passwordLength);
-    } else if((hasDesiredCharacters(digNum, numbersRegex, value) !== true) && (hasDesiredCharacters(capNum, capitalRegex, value) == true ) && (isCorrectLength(length, value) == true)){
-        password.setCustomValidity(`Password must have atleast ${digNum} digit.`);
-        setTextRed(passwordDigit);
-        setTextGreen(passwordLength);
-        setTextGreen(passwordCapital);
-    } else if((hasDesiredCharacters(digNum, numbersRegex, value) == true) && (hasDesiredCharacters(capNum, capitalRegex, value) == true) && (isCorrectLength(length, value) !== true)){
-        password.setCustomValidity(`Password must be atleast ${length} characters long.`);
-        setTextGreen(passwordDigit);
-        setTextGreen(passwordCapital);
-        setTextRed(passwordLength);
-    } else if((hasDesiredCharacters(digNum, numbersRegex, value) == true) && (hasDesiredCharacters(capNum, capitalRegex, value) !== true) && (isCorrectLength(length, value) !== true)){
-        password.setCustomValidity(`Password must be atleast ${length} characters long and contain atlease ${capNum} capital letters`);
-        setTextGreen(passwordDigit);
-        setTextRed(passwordCapital);
-        setTextRed(passwordLength);
-    } else if((hasDesiredCharacters(digNum, numbersRegex, value) == true) && (hasDesiredCharacters(capNum, capitalRegex, value) !== true) && (isCorrectLength(length, value) == true)){
-        setTextGreen(passwordDigit);
-        setTextGreen(passwordLength);
-        setTextRed(passwordCapital);
-        password.setCustomValidity(`Password must contain atleast ${capNum} capital letters`);
-    } else if((isCorrectLength(length, value)) == true && (hasDesiredCharacters(digNum, numbersRegex, value)) == true && (hasDesiredCharacters(capNum, capitalRegex, value)) == true){
-        setTextGreen(passwordLength);
-        setTextGreen(passwordCapital);
-        setTextGreen(passwordDigit);
+    const value = e.target.value /* or password.value */
+
+    
+    let isLongEnough = isCorrectLength(length, value, passwordLength);
+    let hasEnoughCapitals = hasDesiredCharacters(capNum, capitalRegex, value, passwordCapital, capitalMessage);
+    let hasEnoughNumbers = hasDesiredCharacters(digNum, numbersRegex, value, passwordDigit, numbersMessage);
+
+
+    if((isLongEnough == true) && (hasEnoughCapitals == true) && (hasEnoughNumbers == true)){
         password.setCustomValidity('');
     }
 
-    /* VERY LONG IF ELSE BLOCK... IS THERE A BETTER WAY? */
+    /* ALOT CLEANER THAN A MASSIVE IF ELSE BLOCK, ALSO CAN ADD SPECIAL CHARACTERS QUITE EASILY IF NEEDED */
 
+   
 })
 
 passwordConfirmation.addEventListener('input', (e) => {
